@@ -3,15 +3,15 @@
 
 <p class="is-size-3" style="text-align:center">Tambah Jurusan</p>
 <hr>
-<form action="">
+<form method="POST" action="/tambah">
     <div class="field is-horizontal">
         <div class="field-label is-normal">
-            <label class="label">Jurusan</label>
+            <label class="label">ID Jurusan</label>
         </div>
         <div class="field-body">
             <div class="field">
             <div class="control">
-                <input class="input" type="text" placeholder="Jurusan" required>
+                <input class="input" id="id_jurusan" name="id_jurusan" type="text" placeholder="Kode Jurusan" required>
             </div>
             <p class="help is-danger">
                
@@ -19,6 +19,22 @@
             </div>
         </div>
     </div>
+
+    <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label">Jurusan</label>
+            </div>
+            <div class="field-body">
+                <div class="field">
+                <div class="control">
+                    <input class="input" type="text" id="nama_jurusan" name="nama_jurusan" placeholder="Jurusan" required>
+                </div>
+                <p class="help is-danger">
+                   
+                </p>
+                </div>
+            </div>
+        </div>
 
     <div class="field is-grouped is-grouped-centered">
 
