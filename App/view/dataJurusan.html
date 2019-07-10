@@ -1,9 +1,18 @@
-<table class="table is-bordered is-fullwidth">
-    <thead>
-        <tr>
-            <td width="10%">No.</td>
-            <td>Nama Jurusan</td>
-            <td width="10%">#</td>
-        </tr>
-    </thead>
-</table>
+{{define "dataJurusan"}}
+
+{{template "header"}}
+<div class="box box-bordered">
+    <h2 class="has-text-info is-size-15">Daftar Jurusan</h2>
+    <table class="table is-bordered is-fullwidth">
+        <thead>
+            <tr>
+                <td width="10%">No.</td>
+                <td>Nama Jurusan</td>
+                <td width="10%">#</td>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+{{template "footer"}}
+{{end}}
