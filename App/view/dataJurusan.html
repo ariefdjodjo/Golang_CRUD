@@ -11,6 +11,20 @@
                 <td width="10%">#</td>
             </tr>
         </thead>
+        <tbody>
+            {{ range . }}
+            <tr>
+                <td>{{.Id_Jurusan}}</td>
+                <td>{{.NamaJurusan}}</td>
+                <td>
+                    <div class="buttons has-addons is-centered">
+                        <a href="/editJurusan?{{.Id_Jurusan}}" class="button is-small is-info">Edit</a>
+                        <a href="/hapusJurusan?{{.Id_Jurusan}}" class="button is-small is-danger">Hapus</a>
+                    </div>
+                </td>
+            </tr>
+            {{ end }}
+        </tbody>
     </table>
 </div>
 
