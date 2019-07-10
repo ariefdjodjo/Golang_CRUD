@@ -3,22 +3,7 @@
 
 <p class="is-size-3" style="text-align:center">Edit Jurusan</p>
 <hr>
-<form method="POST" action="/tambah">
-    <div class="field is-horizontal">
-        <div class="field-label is-normal">
-            <label class="label">ID Jurusan</label>
-        </div>
-        <div class="field-body">
-            <div class="field">
-            <div class="control">
-                <input class="input" id="id_jurusan" name="id_jurusan" type="text" placeholder="Kode Jurusan" value="{{.Id_Jurusan}}" required>
-            </div>
-            <p class="help is-danger">
-               
-            </p>
-            </div>
-        </div>
-    </div>
+<form method="POST" action="/editJ">
 
     <div class="field is-horizontal">
             <div class="field-label is-normal">
@@ -27,6 +12,7 @@
             <div class="field-body">
                 <div class="field">
                 <div class="control">
+                    <input class="input" id="id_jurusan" name="id_jurusan" type="hidden" placeholder="Kode Jurusan" value="{{.Id_Jurusan}}" required>
                     <input class="input" type="text" id="nama_jurusan" name="nama_jurusan" placeholder="Jurusan" value="{{.NamaJurusan}}" required>
                 </div>
                 <p class="help is-danger">

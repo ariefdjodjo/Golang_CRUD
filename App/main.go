@@ -131,6 +131,36 @@ func editJurusan(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
+func hapusJurusan(w http.ResponseWriter, r *http.Request) {
+	db := dbConn()
+	emp := r.URL.Query().Get("id")
+	delForm, err := db.Prepare("DELETE FROM jurusan WHERE id_jurusan=$1")
+	if err != nil {
+		panic(err.Error())
+	}
+	delForm.Exec(emp)
+	log.Println("DELETE BERHASIL")
+	defer db.Close()
+	http.Redirect(w, r, "/dataJurusan", 301)
+}
+
+func editJ(w http.ResponseWriter, r *http.Request) {
+	db := dbConn()
+	if r.Method == "POST" {
+		id_jurusan := r.FormValue("id_jurusan")
+		nama_jurusan := r.FormValue("nama_jurusan")
+
+		insForm, err := db.Prepare("UPDATE jurusan SET nama_jurusan=$2 WHERE id_jurusan=$1")
+		if err != nil {
+			panic(err.Error())
+		}
+		insForm.Exec(id_jurusan, nama_jurusan)
+		log.Println("UPDATE: ID: " + id_jurusan + " | Jurusan: " + nama_jurusan)
+	}
+	defer db.Close()
+	http.Redirect(w, r, "/dataJurusan", 301)
+}
+
 func dataMahasiswa(w http.ResponseWriter, r *http.Request) {
 	err = tmpl.ExecuteTemplate(w, "dataMahasiswa", nil)
 }
@@ -152,6 +182,8 @@ func main() {
 	http.HandleFunc("/tambahJurusan", tambahJurusan)
 	http.HandleFunc("/tambah", tambah)
 	http.HandleFunc("/editJurusan", editJurusan)
+	http.HandleFunc("/editJ", editJ)
+	http.HandleFunc("/hapusJurusan", hapusJurusan)
 
 	//handle untuk mahasiswa
 	http.HandleFunc("/dataMahasiswa", dataMahasiswa)
