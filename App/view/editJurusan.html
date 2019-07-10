@@ -1,7 +1,7 @@
-{{define "tambahJurusan"}}
+{{define "editJurusan"}}
 {{template "header"}}
 
-<p class="is-size-3" style="text-align:center">Tambah Jurusan</p>
+<p class="is-size-3" style="text-align:center">Edit Jurusan</p>
 <hr>
 <form method="POST" action="/tambah">
     <div class="field is-horizontal">
@@ -11,7 +11,7 @@
         <div class="field-body">
             <div class="field">
             <div class="control">
-                <input class="input" id="id_jurusan" name="id_jurusan" type="text" placeholder="Kode Jurusan" required>
+                <input class="input" id="id_jurusan" name="id_jurusan" type="text" placeholder="Kode Jurusan" value="{{.Id_Jurusan}}" required>
             </div>
             <p class="help is-danger">
                
@@ -27,7 +27,7 @@
             <div class="field-body">
                 <div class="field">
                 <div class="control">
-                    <input class="input" type="text" id="nama_jurusan" name="nama_jurusan" placeholder="Jurusan" required>
+                    <input class="input" type="text" id="nama_jurusan" name="nama_jurusan" placeholder="Jurusan" value="{{.NamaJurusan}}" required>
                 </div>
                 <p class="help is-danger">
                    

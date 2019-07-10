@@ -10,7 +10,7 @@ import(
 	
 )
 
-type Mahasiswa struct {
+type mahasiswa struct {
 	Nim			int 	
 	Nama 		string 	
 	Jk			int 	
@@ -20,7 +20,7 @@ type Mahasiswa struct {
 	Agama 		int 	
 }
 
-type Jurusan struct {
+type jurusan struct {
 	Id_Jurusan 	int 	
 	NamaJurusan	string	
 }
@@ -31,8 +31,9 @@ func dbConn() (db *sql.DB)  {
 	}
 
 	dbUser := "root"
+	host 	:= "localhost"
 	dbName := "kampus"
-	db, err := sql.Open("postgres", "postgresql://"+dbUser+"@"+os.Getenv("ROACH_HOST")+":26257/"+dbName+"?sslmode=disable")
+	db, err := sql.Open("postgres", "postgresql://"+dbUser+"@"+host+":26257/"+dbName+"?sslmode=disable")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -61,11 +62,26 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func dataJurusan(w http.ResponseWriter, r *http.Request) {
-	var data = map[string]interface{}{
-		"title": "golang CRUD",
+	db := dbConn()
+	selDB, err := db.Query("SELECT * FROM jurusan ORDER BY id_jurusan ASC")
+	if err != nil {
+		panic(err.Error())
 	}
-
-	err = tmpl.ExecuteTemplate(w, "dataJurusan", data)
+	emp := jurusan{}
+	res := []jurusan{}
+	for selDB.Next() {
+		var id_jurusan int
+		var nama_jurusan string
+		err = selDB.Scan(&id_jurusan, &nama_jurusan)
+		if err != nil {
+			panic(err.Error())
+		}
+		emp.Id_Jurusan = id_jurusan
+		emp.NamaJurusan = nama_jurusan
+		res = append(res, emp)
+	}
+	tmpl.ExecuteTemplate(w, "dataJurusan", res)
+	defer db.Close()
 }
 
 func tambahJurusan(w http.ResponseWriter, r *http.Request) {
@@ -87,10 +103,32 @@ func tambah(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 		insForm.Exec(id_jurusan, nama_jurusan)
-		log.Println("INSERT: nama: " + id_jurusan + " | alamat: " + nama_jurusan)
+		log.Println("INSERT: ID: " + id_jurusan + " | Jurusan: " + nama_jurusan)
 	}
 	defer db.Close()
-	http.Redirect(w, r, "/", 301)
+	http.Redirect(w, r, "/dataJurusan", 301)
+}
+
+func editJurusan(w http.ResponseWriter, r *http.Request) {
+	db := dbConn()
+	nId := r.URL.Query().Get("id")
+	selDB, err := db.Query("SELECT * FROM jurusan WHERE id_jurusan=$1", nId)
+	if err != nil {
+		panic(err.Error())
+	}
+	emp := jurusan{}
+	for selDB.Next() {
+		var id_jurusan int
+		var nama_jurusan string
+		err = selDB.Scan(&id_jurusan, &nama_jurusan)
+		if err != nil {
+			panic(err.Error())
+		}
+		emp.Id_Jurusan = id_jurusan
+		emp.NamaJurusan = nama_jurusan
+	}
+	tmpl.ExecuteTemplate(w, "editJurusan", emp)
+	defer db.Close()
 }
 
 func dataMahasiswa(w http.ResponseWriter, r *http.Request) {
@@ -113,6 +151,7 @@ func main() {
 	http.HandleFunc("/dataJurusan", dataJurusan)
 	http.HandleFunc("/tambahJurusan", tambahJurusan)
 	http.HandleFunc("/tambah", tambah)
+	http.HandleFunc("/editJurusan", editJurusan)
 
 	//handle untuk mahasiswa
 	http.HandleFunc("/dataMahasiswa", dataMahasiswa)
