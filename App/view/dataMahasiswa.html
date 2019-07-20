@@ -8,8 +8,14 @@
                 <td width="5%">No.</td>
                 <td>NIM</td>
                 <td>Nama Mahasiswa</td>
-                <td>Nama Jurusan</td>
+                <td>Jenis Kelamin</td>
+                <td>Tempat Lahir</td>
+                <td>Tanggal Lahir</td>
+                <td>Jurusan</td>
+                <td>Alamat</td>
+                <td>Agama</td>
                 <td width="15%">#</td>
+                
             </tr>
         </thead>
         <tbody>
@@ -17,7 +23,12 @@
                 <td>{{ .Urut }}</td>
                 <td>{{ .NIM }}</td>
                 <td>{{ .Nama }}</td>
+                <td>{{ .Jk }}</td>
+                <td>{{ .Alamat }}</td>
+                <td>{{ .TempatLahir }}</td>
+                <td>{{ .TglLahir}}</td>
                 <td>{{ .Jurusan }}</td>
+                <td>{{ .Agama }}</td>
                 <td>
                     <div class="buttons has-addons is-centered">
                         <a href="" class="button is-small is-primary">Lihat</a>
